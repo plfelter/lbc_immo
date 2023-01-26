@@ -1,0 +1,107 @@
+{
+  "type": "umap",
+  "uri": "http://umap.openstreetmap.fr/en/map/lbc_immo_862347",
+  "properties": {
+    "easing": true,
+    "embedControl": true,
+    "fullscreenControl": true,
+    "searchControl": true,
+    "datalayersControl": true,
+    "zoomControl": true,
+    "slideshow": {},
+    "captionBar": false,
+    "limitBounds": {},
+    "tilelayer": {},
+    "licence": "",
+    "description": "",
+    "name": "lbc_immo",
+    "displayPopupFooter": false,
+    "miniMap": false,
+    "moreControl": true,
+    "scaleControl": true,
+    "scrollWheelZoom": true,
+    "zoom": 6
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      3.482666015625,
+      45.298075138707965
+    ]
+  },
+  "layers": [
+    {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "name": "TestPoint"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              1.308746,
+              43.705608
+            ]
+          }
+        }
+      ],
+      "_umap_options": {
+        "displayOnLoad": true,
+        "browsable": true,
+        "name": "Layer 1",
+        "id": 2606500
+      }
+    },
+    {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                1.395264,
+                43.659924
+              ],
+              [
+                1.428223,
+                43.633093
+              ],
+              [
+                1.499977,
+                43.639057
+              ],
+              [
+                1.513367,
+                43.623153
+              ],
+              [
+                1.511993,
+                43.580391
+              ],
+              [
+                1.485901,
+                43.555515
+              ],
+              [
+                1.428223,
+                43.544567
+              ]
+            ]
+          }
+        }
+      ],
+      "_umap_options": {
+        "displayOnLoad": true,
+        "browsable": true,
+        "remoteData": {},
+        "name": "Layer 2",
+        "id": 2606541
+      }
+    }
+  ]
+}
