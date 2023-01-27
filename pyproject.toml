@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "lbc-immo"
+version = "0.1.0"
+description = ""
+authors = ["Pierre-Loic FELTER <plfelter@argans.co.uk>"]
+readme = "README.md"
+packages = [{include = "lbc_immo"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
