@@ -1,14 +1,13 @@
-log_file="log.txt"
-source_dir="./cptest"
-dest_dir="./cptest4"
+source_dir="/home/lobstr/writeable/."
+dest_dir="/home/debian/lbc_immo/data/lobstr_delivery"
+log_file="/home/debian/lbc_immo/data/cplog.log"
 
 function copy_and_log {
         cp_result=$(cp -rnv $source_dir $dest_dir)
         if [ ! -z "$cp_result" ]; then
-                echo "$cp_result"
                 echo >> $log_file
-                date >> $log_file
-                echo "$cp_result" >> $log_file
+                date | tee -a $log_file
+                echo "$cp_result" | tee -a $log_file
         fi
 }
 
