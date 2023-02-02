@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source_dir="/home/lobstr/writeable/."
 dest_dir="/home/debian/lbc_immo/data/lobstr_delivery"
 log_file="/home/debian/lbc_immo/data/cplog.log"
