@@ -46,7 +46,7 @@ class FeatureWriter:
                         list(map(self.get_attr_str, repeat(e), set(e.index) - set(self.attrs)))),
                 "_umap_options": {
                     "color": "Black" if np.isnan(e.price) else self.get_colour(
-                        e.price, 300, 2000),
+                        e.price, 0, 2000),
                     "iconClass": "Circle",
                     "popupShape": "Large", #"Panel",
                     "showLabel": None,
@@ -93,7 +93,7 @@ class ImmoFeatureWriter(FeatureWriter):
                     f"[{int(e.price / 1000)}k€] "
                     f"{e.title} "
                     f"{e.last_publication_date.strftime('(%d %b %H:%M)')}",
-                "description": #f"[{int(e.price / 1000)}k€] {e.title}",
+                "description":
                     '\n'.join(list(map(self.get_attr_str, repeat(e), self.attrs))),
                 "_umap_options": {
                     "color": "Black" if np.isnan(e.price) else self.get_colour(
