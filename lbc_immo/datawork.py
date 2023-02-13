@@ -7,12 +7,6 @@ from functools import reduce, cache
 from datetime import datetime, timedelta
 
 
-logging.basicConfig(
-    format='%(asctime)s | %(levelname)s %(message)s',
-    datefmt='%m/%d/%Y %H:%M:%S',
-    level=logging.DEBUG)
-
-
 def filter_for_period(df: pd.DataFrame, date_field: str, d1: int, d2: int):
     dt_d1 = (datetime.now() - timedelta(days = d1)).date()
     dt_d2 = (datetime.now() - timedelta(days = d2)).date()

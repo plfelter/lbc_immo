@@ -4,8 +4,15 @@ from os.path import join, dirname, realpath
 sys.path.append(dirname(dirname(realpath(__file__))))
 
 from pathlib import Path
+import logging
 
 from lbc_immo.datawork import DataLoader, filter_for_period
+
+
+logging.basicConfig(
+    format='%(asctime)s | %(levelname)s %(message)s',
+    datefmt='%m/%d/%Y %H:%M:%S',
+    level=logging.DEBUG)
 
 
 def test_dataloader():

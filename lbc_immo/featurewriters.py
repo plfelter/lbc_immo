@@ -1,6 +1,7 @@
 import numpy as np
 import geojson as gj
 from itertools import repeat
+import logging
 
 
 class FeatureWriter:
@@ -11,16 +12,24 @@ class FeatureWriter:
         "pictures": lambda x: '\n'.join(['{{' + e + '}}' for e in str(x).split("|||")]),
         "description": str,
         "lat": float,
-        "lng": float
+        "lng": float,
+        "last_publication_date": lambda t: t.to_pydatetime()
     }
 
     def __init__(self, e):
 
+        self.feature = None
+
         if not set(self.attrs).issubset(set(e.index)):
             raise Exception(f"Missing mandatory fields:\n{set(self.attrs) - set(e.index)}")
 
-        for a, f in self.attrs.items():
-            e[a] = f(e[a])
+        try:
+            for a, f in self.attrs.items():
+                e[a] = f(e[a])
+        except ValueError as exc:
+            logging.debug(
+                f'Dropping entry ; got exception when trying to apply {f} to {e[a]} ({a}): {exc}')
+            return
 
         self._generate_feature(e)
 
@@ -28,14 +37,16 @@ class FeatureWriter:
         self.feature = gj.Feature(
             geometry=gj.Point((e.lng, e.lat)), 
             properties={
-                "name": f"[{int(e.price)}€] {e.title}",
+                "name":
+                    f"[{int(e.price)}€] {e.title} "
+                    f"{e.last_publication_date.strftime('(%d %b %H:%M)')}",
                 "description": 
-                    '\n\n'.join(
+                    '\n'.join(
                         list(map(self.get_attr_str, repeat(e), self.attrs)) + \
                         list(map(self.get_attr_str, repeat(e), set(e.index) - set(self.attrs)))),
                 "_umap_options": {
                     "color": "Black" if np.isnan(e.price) else self.get_colour(
-                        e.price / 1000, 50, 600),
+                        e.price, 300, 2000),
                     "iconClass": "Circle",
                     "popupShape": "Large", #"Panel",
                     "showLabel": None,
@@ -65,8 +76,11 @@ class FeatureWriter:
         return f'#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}'
 
     @staticmethod
-    def get_attr_str(e, attr):
-        return f'**[{attr}]**\n{e[attr]}'
+    def get_attr_str(e, attr, with_attr_name=True):
+        if with_attr_name:
+            return f'**{attr}:**\t{e[attr]}'
+        else:
+            return f'{e[attr]}'
 
 
 class ImmoFeatureWriter(FeatureWriter):
@@ -75,11 +89,12 @@ class ImmoFeatureWriter(FeatureWriter):
         self.feature = gj.Feature(
             geometry=gj.Point((e.lng, e.lat)), 
             properties={
-                "name": f"[{int(e.price / 1000)}k€] {e.title}",
-                "description": 
-                    '\n\n'.join(
-                        list(map(self.get_attr_str, repeat(e), self.attrs)) + \
-                        list(map(self.get_attr_str, repeat(e), set(e.index) - set(self.attrs)))),
+                "name":
+                    f"[{int(e.price / 1000)}k€] "
+                    f"{e.title} "
+                    f"{e.last_publication_date.strftime('(%d %b %H:%M)')}",
+                "description": #f"[{int(e.price / 1000)}k€] {e.title}",
+                    '\n'.join(list(map(self.get_attr_str, repeat(e), self.attrs))),
                 "_umap_options": {
                     "color": "Black" if np.isnan(e.price) else self.get_colour(
                         e.price / 1000, 50, 600),
