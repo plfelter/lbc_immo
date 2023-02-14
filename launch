@@ -1,0 +1,7 @@
+#!/bin/bash
+echo activate env
+source $(/home/debian/.local/bin/poetry --directory=/home/debian/lbc_immo env info --path)/bin/activate
+echo start python
+python /home/debian/lbc_immo/lbc_immo/main.py
+echo deactivate
+deactivate
