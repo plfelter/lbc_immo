@@ -1,7 +1,6 @@
 #!/bin/bash
-echo activate env
+# Make sure to use the full path to poetry; when using crontab, the shell is launched with an almost empty PATH
 source $(/home/debian/.local/bin/poetry --directory=/home/debian/lbc_immo env info --path)/bin/activate
-echo start python
+# Once poetry env activated, no problem to find python and deactivate commands
 python /home/debian/lbc_immo/lbc_immo/main.py
-echo deactivate
 deactivate
