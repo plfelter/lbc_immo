@@ -5,7 +5,7 @@ import logging
 
 
 class FeatureWriter:
-    attrs  = {
+    attrs = {
         "title": str,
         "url": str,
         "price": int,
@@ -13,7 +13,8 @@ class FeatureWriter:
         "description": str,
         "lat": float,
         "lng": float,
-        "last_publication_date": lambda t: t.to_pydatetime()
+        "last_publication_date": lambda t: t.to_pydatetime(),
+        "first_publication_date": lambda t: t.to_pydatetime()
     }
 
     def __init__(self, e):
@@ -84,14 +85,26 @@ class FeatureWriter:
 
 
 class ImmoFeatureWriter(FeatureWriter):
+
+    attrs = {
+        **FeatureWriter.attrs,
+        "surface": str
+    }
+
+    @staticmethod
+    def _extract_eur_per_m2(surf: str, price: int) -> str:
+        try:
+            return str(int(price / int(surf.split(' ')[0])))
+        except Exception:
+            return '-'
     
     def _generate_feature(self, e):
         self.feature = gj.Feature(
             geometry=gj.Point((e.lng, e.lat)), 
             properties={
                 "name":
-                    f"[{int(e.price / 1000)}k€] "
-                    f"{e.title} "
+                    f"[{int(e.price / 1000)}k€][{self._extract_eur_per_m2(e.surface, e.price)}€/m2]"
+                    f" {e.title} "
                     f"{e.last_publication_date.strftime('(%d %b %H:%M)')}",
                 "description":
                     '\n'.join(list(map(self.get_attr_str, repeat(e), self.attrs))),
