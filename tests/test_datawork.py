@@ -5,6 +5,7 @@ sys.path.append(dirname(dirname(realpath(__file__))))
 
 from pathlib import Path
 import logging
+import numpy as np
 
 from lbc_immo.datawork import DataLoader, filter_for_period
 
@@ -16,12 +17,9 @@ logging.basicConfig(
 
 
 def test_dataloader():
-    print(DataLoader(Path.cwd() / 'data' / 'lobstr_delivery').data)
+    dl = DataLoader(Path.cwd() / 'data' / 'lobstr_delivery')
+    print(dl.data)
 
-
-def test_datawork():
-    for cat, df in DataLoader(Path.cwd() / 'data' / 'lobstr_delivery').data.items():
-        DataParser(df)
 
 def test_filter_for_period():
     for cat, df in DataLoader(Path.cwd() / 'data' / 'lobstr_delivery').data.items():
@@ -31,6 +29,5 @@ def test_filter_for_period():
 
 
 if __name__ == '__main__':
-    #test_dataloader()
-    #test_datawork()
-    test_filter_for_period()
+    test_dataloader()
+    #test_filter_for_period()

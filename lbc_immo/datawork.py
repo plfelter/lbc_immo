@@ -51,12 +51,20 @@ class DataLoader:
                 df.loc[:, cname] = pd.to_datetime(df.loc[:, cname], errors='coerce')
 
         # Keep most recent publicated version and set annonce_id as index
-        return pd.merge(
+        df = pd.merge(
             left=df,
             right=df.groupby(['annonce_id']).last_publication_date.max().reset_index(),
             on=['annonce_id', 'last_publication_date'],
             how='inner'
         ).drop_duplicates(['annonce_id', 'last_publication_date'])
+
+        # Insert noise in entries coordinates that are exactly the same
+        mask = df.lat.duplicated(keep=False) & df.lng.duplicated(keep=False)
+        df.loc[mask, 'lat'] += (np.random.random(mask.size) * 1e-3)[mask]
+        df.loc[mask, 'lng'] += (np.random.random(mask.size) * 1e-3)[mask]
+        df.loc[mask, 'title'] = df['title'].astype(str) + ' [Location warning]'
+
+        return df
 
 
     def _load_data(self, csv_files: List[Path]):
