@@ -49,7 +49,7 @@ class FeatureWriter:
                     "color": "Black" if np.isnan(e.price) else self.get_colour(
                         e.price, 0, 2000),
                     "iconClass": "Circle",
-                    "popupShape": "Large", #"Panel",
+                    "popupShape": "Panel", # "Large"
                     "showLabel": None,
                     "labelDirection": "right",
                     "labelInteractive": False
@@ -122,7 +122,7 @@ class ImmoFeatureWriter(FeatureWriter):
                     "color": "Black" if np.isnan(e.price) else self.get_colour(
                         e.price / 1000, 50, 600),
                     "iconClass": "Circle",
-                    "popupShape": "Large", #"Panel",
+                    "popupShape": "Panel",  # "Large", "Panel",
                     "showLabel": None,
                     "labelDirection": "right",
                     "labelInteractive": False
@@ -167,7 +167,7 @@ class ImmoLocFeatureWriter(FeatureWriter):
                     "color": "Black" if np.isnan(e.price) else self.get_colour(
                         e.price, 50, 1600),
                     "iconClass": "Circle",
-                    "popupShape": "Large", #"Panel",
+                    "popupShape": "Panel",  # "Large", #"Panel",
                     "showLabel": None,
                     "labelDirection": "right",
                     "labelInteractive": False
