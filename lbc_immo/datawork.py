@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 def filter_for_period(df: pd.DataFrame, date_field: str, d1: int, d2: int):
     dt_d1 = (datetime.now() - timedelta(days = d1)).date()
     dt_d2 = (datetime.now() - timedelta(days = d2)).date()
-    dates = df.loc[:, date_field].dt.date
+    dates = pd.to_datetime(df.loc[:, date_field]).dt.date
     m = (dates >= dt_d1) & (dates <= dt_d2)
     return df.loc[m, :]
 

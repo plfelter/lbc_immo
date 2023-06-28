@@ -10,6 +10,7 @@ from featurewriters import FeatureWriter, ImmoFeatureWriter, ImmoLocFeatureWrite
 
 
 def process(input_dir: Path, output_dir: Path):
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     periods = [(0, 0), (1, 1), (2, 2), (5, 3), (10, 6), (365, 11)]
 
