@@ -81,6 +81,14 @@ class DataLoader:
                 {k: np.zeros(df.shape[0]) * np.nan for k in set(df.columns).union(details_df)})
             df_filled_with_details.fillna(df, inplace=True)
             df_filled_with_details.fillna(details_df, inplace=True)
+            # key=field in dataframe / value=field in details dict
+            mapping = {
+                "surface": "surface habitable",
+                "étage du bien": "étage de votre bien",
+                "nombre d'étages de l'immeuble": "nombre d’étages dans l’immeuble"
+            }
+            for mk, mv in mapping.items():
+                df_filled_with_details[mk].fillna(df_filled_with_details[mv], inplace=True)
             df = df_filled_with_details
 
         return df

@@ -106,7 +106,6 @@ class ImmoFeatureWriter(FeatureWriter):
             return '-'
     
     def _generate_feature(self, e):
-        surf = self._extract_surface(e.surface)
         self.feature = gj.Feature(
             geometry=gj.Point((e.lng, e.lat)), 
             properties={
