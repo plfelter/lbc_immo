@@ -1,5 +1,6 @@
 from typing import List
 from pathlib import Path
+import json
 import pandas as pd
 import numpy as np
 import logging
@@ -63,6 +64,24 @@ class DataLoader:
         df.loc[mask, 'lat'] += (np.random.random(mask.size) * 1e-3)[mask]
         df.loc[mask, 'lng'] += (np.random.random(mask.size) * 1e-3)[mask]
         df.loc[mask, 'title'] = df['title'].astype(str) + ' [Location warning]'
+
+        # Unfold details field to real DataFrame fields.
+        if "details" in df:
+            def unfold_details(jstring: str):
+                try:
+                    s = pd.Series(json.loads(jstring))
+                    # Fields might already exist in the database (coming from other csv files), but they are lowered
+                    s = s.set_axis(list(map(str.lower, s.index.values)))
+                except Exception as e:
+                    s = pd.Series({}, dtype=str)
+                return s
+
+            details_df = df.details.apply(unfold_details)
+            df_filled_with_details = pd.DataFrame(
+                {k: np.zeros(df.shape[0]) * np.nan for k in set(df.columns).union(details_df)})
+            df_filled_with_details.fillna(df, inplace=True)
+            df_filled_with_details.fillna(details_df, inplace=True)
+            df = df_filled_with_details
 
         return df
 
