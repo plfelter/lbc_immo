@@ -14,7 +14,10 @@ def process(input_dir: Path, output_dir: Path):
 
     periods = [(0, 0), (1, 1), (2, 2), (30, 0), (365, 0)]
 
-    for cat, df in DataLoader(input_dir).data.items():
+    dl = DataLoader(input_dir)
+    dl.alldata.to_csv(output_dir / f"all_data.csv")
+
+    for cat, df in dl.data.items():
         for d1, d2 in periods:
 
             filtered_df = filter_for_period(df, 'last_publication_date', d1, d2)
